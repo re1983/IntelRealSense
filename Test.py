@@ -62,19 +62,22 @@ try:
         color_image = np.asanyarray(color_frame.get_data())
         color_colormap_dim = color_image.shape
 
-        images = color_image
+        # images = color_image
         # Cast to motion frame and get its data
-        # gyro_data = gyro_frame.as_motion_frame().get_motion_data()
-        # accel_data = accel_frame.as_motion_frame().get_motion_data()
-
+        gyro_data = gyro_frame.as_motion_frame().get_motion_data()
+        accel_data = accel_frame.as_motion_frame().get_motion_data()
         # print("Gyro: ", gyro_data.x, gyro_data.y, gyro_data.z)
         # print("Accel: ", accel_data.x, accel_data.y, accel_data.z)
+
         # Show images
         cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-        cv2.imshow('RealSense', images)
+        cv2.imshow('RealSense', color_image)
         cv2.waitKey(1)
+        if cv2.waitKey(25) & 0xFF == ord('q'):
+            break
 
 finally:
 
     # Stop streaming
     pipeline.stop()
+    cv2.destroyAllWindows()
